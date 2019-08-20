@@ -5,7 +5,7 @@
 		<style>
 			body {
 				font-family: monospace;
-                font-size: 16px;
+                font-size: 18px;
 				padding-left: 15px;
 			}
 			li {
@@ -25,9 +25,10 @@
 
             function start() {
                 var todoItemsStorage = JSON.parse(localStorage.getItem("todos"));
-                if(todoItemsStorage)
-                    for(var t in todoItemsStorage)
-                        addItem(makeItem(todoItemsStorage[t]))
+                if(!todoItemsStorage)
+                    todoItemsStorage = ["Delete this item by clicking on it."]
+                for(var t in todoItemsStorage)
+                    addItem(makeItem(todoItemsStorage[t]))
             }
 
             function promptAndAddItem() {
