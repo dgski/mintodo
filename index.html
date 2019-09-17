@@ -1,69 +1,87 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Todo</title>
-		<style>
-			body {
-				font-family: monospace;
-                font-size: 18px;
-				padding-left: 15px;
-			}
-			li {
-				padding-bottom: 10px;
-				cursor: crosshair;
-			}
-			@media (min-width: 700px) {
-				body {
-					margin-left: calc(50% - 300px);
-					width: 600px;
-					border-left: 1px solid gainsboro;
-				}
-			}
-		</style>
-        <script>
-            var todoItems = [];
 
-            function start() {
-                var todoItemsStorage = JSON.parse(localStorage.getItem("todos"));
-                if(!todoItemsStorage)
-                    todoItemsStorage = ["Delete this item by clicking on it."]
-                for(var t in todoItemsStorage)
-                    addItem(makeItem(todoItemsStorage[t]))
+<head>
+    <title>Todo</title>
+    <style>
+        body {
+            font-family: monospace;
+            font-size: 18px;
+            padding-left: 15px;
+        }
+        
+        li {
+            padding-bottom: 10px;
+            cursor: crosshair;
+        }
+        
+        @media (min-width: 700px) {
+            body {
+                margin-left: calc(50% - 300px);
+                width: 600px;
+                border-left: 1px solid gainsboro;
             }
+        }
+        
+        @media(max-device-width:830px) {
+            body {
+                margin: 0px;
+                font-size: 4em;
+                border: none;
+                padding: 5%;
+            }
+            button {
+                font-size: 1em;
+                padding: 0.2em;
+            }
+        }
+    </style>
+    <script>
+        var todoItems = [];
 
-            function promptAndAddItem() {
-                var data = window.prompt("New Item:")
-                if(!data) return
-                addItem(makeItem(data, todoItems.length))
-            }
+        function start() {
+            var todoItemsStorage = JSON.parse(localStorage.getItem("todos"));
+            if (!todoItemsStorage)
+                todoItemsStorage = ["Delete this item by clicking on it."]
+            for (var t in todoItemsStorage)
+                addItem(makeItem(todoItemsStorage[t]))
+        }
 
-            function makeItem(data) {
-                var newItemElem = document.createElement("li")
-                newItemElem.innerText = data
-				newItemElem.onclick = e => removeItem(newItemElem)
-                return newItemElem
-            }
+        function promptAndAddItem() {
+            var data = window.prompt("New Item:")
+            if (!data) return
+            addItem(makeItem(data, todoItems.length))
+        }
 
-            function addItem(ItemToAdd) {
-                document.getElementById("todos").appendChild(ItemToAdd)
-                todoItems.push(ItemToAdd);
-                updateLocalStorage();
-            }
+        function makeItem(data) {
+            var newItemElem = document.createElement("li")
+            newItemElem.innerText = data
+            newItemElem.onclick = e => removeItem(newItemElem)
+            return newItemElem
+        }
 
-            function removeItem(ElemToRemove) {
-                ElemToRemove.remove()
-                todoItems = todoItems.filter(el => el != ElemToRemove)
-                updateLocalStorage();
-            }
+        function addItem(ItemToAdd) {
+            document.getElementById("todos").appendChild(ItemToAdd)
+            todoItems.push(ItemToAdd);
+            updateLocalStorage();
+        }
 
-            function updateLocalStorage() {
-                localStorage.setItem("todos", JSON.stringify(todoItems.map(el => el.innerText)));
-            }
-        </script>
-    </head>
-    <body onload="start();">
-        <h1>TODO</h1>
-        <ul id="todos"></ul>
-        <button onclick="promptAndAddItem();">+ Item</button>
-    </body>
+        function removeItem(ElemToRemove) {
+            ElemToRemove.remove()
+            todoItems = todoItems.filter(el => el != ElemToRemove)
+            updateLocalStorage();
+        }
+
+        function updateLocalStorage() {
+            localStorage.setItem("todos", JSON.stringify(todoItems.map(el => el.innerText)));
+        }
+    </script>
+</head>
+
+<body onload="start();">
+    <h1>TODO</h1>
+    <ul id="todos"></ul>
+    <button onclick="promptAndAddItem();">+ Item</button>
+</body>
+
 </html>
